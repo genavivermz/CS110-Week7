@@ -12,7 +12,7 @@
    <TextBlock x:Name="StoryTextBlock" FontSize="22" TextWrapping="Wrap" Margin="0,14"/>
    <TextBlock x:Name="ImageDescription" TextWrapping="Wrap" FontSize="14"/>
    <WrapPanel Margin="0,14">
-    <Button x:Name="BackButton" Content="_Back" Click="BackButton_Click" Padding="18,10" Margin="0,0,8,8"/>
+    <Button x:Name="BackButton" Content="_Back" Click="BackButton_Click" Padding="18,10" Margin="345,0,8,8"/>
     <Button x:Name="NextButton" Content="_Next" Click="NextButton_Click" Padding="18,10" Margin="0,0,8,8"/>
     <Button Content="_Restart" Click="RestartButton_Click" Padding="18,10" Margin="0,0,8,8"/>
    </WrapPanel>
