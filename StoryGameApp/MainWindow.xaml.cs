@@ -1,7 +1,10 @@
 using System;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Rectangle = System.Windows.Shapes.Rectangle;
 
 namespace StoryGameApp;
 
@@ -16,11 +19,42 @@ public partial class MainWindow : Window
         new Slide("Result", "Assets/Images/watered.jpeg", "Frequency triggers plant watering system & toggles sprinklers.")
     };
     private int currentSlide = 0; // Array positions start at zero.
+    private readonly Image[] slideImages;
+    private readonly Border[] slideTiles;
+    private readonly Rectangle[] slideDimmers;
 
     public MainWindow()
     {
         InitializeComponent(); // Build the named controls from XAML first.
+        slideImages = new[] { StartingImage, ActionImage, ResultImage };
+        slideTiles = new[] { StartingTile, ActionTile, ResultTile };
+        slideDimmers = new[] { StartingDimmer, ActionDimmer, ResultDimmer };
+        LoadSlideImages();
         ShowSlide(currentSlide);
+    }
+
+    private void LoadSlideImages()
+    {
+        for (int i = 0; i < slides.Length; i++)
+        {
+            try
+            {
+                string path = Path.Combine(AppContext.BaseDirectory, slides[i].ImagePath);
+                if (!File.Exists(path)) throw new FileNotFoundException("Image file was not found.", path);
+                var image = new BitmapImage();
+                image.BeginInit();
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+                image.UriSource = new Uri(path, UriKind.Absolute);
+                image.EndInit();
+                slideImages[i].Source = image;
+            }
+            catch (Exception ex) when (ex is IOException || ex is NotSupportedException || ex is System.IO.FileFormatException)
+            {
+                slideImages[i].Source = null;
+                StatusText.Text = $"Image unavailable for {slides[i].Text}. Check Assets/Images and the filename. {ex.Message}";
+            }
+        }
     }
 
     private void ShowSlide(int index)
@@ -33,24 +67,18 @@ public partial class MainWindow : Window
         SlideCounter.Text = $"Slide {currentSlide + 1} of {slides.Length}";
         BackButton.IsEnabled = currentSlide > 0;
         NextButton.IsEnabled = currentSlide < slides.Length - 1;
-        try
+        for (int i = 0; i < slides.Length; i++)
         {
-            string path = Path.Combine(AppContext.BaseDirectory, slide.ImagePath);
-            if (!File.Exists(path)) throw new FileNotFoundException("Image file was not found.", path);
-            var image = new BitmapImage();
-            image.BeginInit();
-            image.CacheOption = BitmapCacheOption.OnLoad;
-            image.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
-            image.UriSource = new Uri(path, UriKind.Absolute);
-            image.EndInit();
-            StoryImage.Source = image;
-            StatusText.Text = "Story ready.";
+            bool isSelected = i == currentSlide;
+            slideImages[i].Opacity = isSelected ? 1 : 0.62;
+            slideTiles[i].BorderBrush = isSelected
+                ? new SolidColorBrush(Color.FromRgb(183, 213, 154))
+                : new SolidColorBrush(Color.FromRgb(71, 100, 81));
+            slideDimmers[i].Visibility = isSelected ? Visibility.Collapsed : Visibility.Visible;
         }
-        catch (Exception ex) when (ex is IOException || ex is NotSupportedException || ex is System.IO.FileFormatException)
-        {
-            StoryImage.Source = null;
-            StatusText.Text = "Image unavailable. Check Assets/Images and the filename. " + ex.Message;
-        }
+        StatusText.Text = slideImages[currentSlide].Source is null
+            ? $"Image unavailable for {slide.Text}. Check Assets/Images and the filename."
+            : "Story ready.";
     }
 
     private void NextButton_Click(object sender, RoutedEventArgs e)

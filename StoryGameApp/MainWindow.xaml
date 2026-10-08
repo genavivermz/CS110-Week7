@@ -1,25 +1,156 @@
 <Window x:Class="StoryGameApp.MainWindow"
  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
- Title="CS110 Story Game" Width="960" Height="760" MinWidth="600" MinHeight="560"
+ Title="CS110 Story Game" Width="1040" Height="1000" MinWidth="720" MinHeight="760"
  Background="#10251F" Foreground="#F1F5EB">
- <ScrollViewer VerticalScrollBarVisibility="Auto">
-  <StackPanel Margin="24">
-   <TextBlock Text="FIELD STORY / CS110" Foreground="#EED19B" FontSize="16"/>
-   <TextBlock x:Name="SlideCounter" FontSize="16" Margin="0,8"/>
-   <Image x:Name="StoryImage" Height="260" Stretch="Uniform"
-          AutomationProperties.Name="Current story illustration"/>
-   <TextBlock x:Name="StoryTextBlock" FontSize="22" TextWrapping="Wrap" Margin="0,14"/>
-   <TextBlock x:Name="ImageDescription" TextWrapping="Wrap" FontSize="14"/>
-   <WrapPanel Margin="0,14">
-    <Button x:Name="BackButton" Content="_Back" Click="BackButton_Click" Padding="18,10" Margin="345,0,8,8"/>
-    <Button x:Name="NextButton" Content="_Next" Click="NextButton_Click" Padding="18,10" Margin="0,0,8,8"/>
-    <Button Content="_Restart" Click="RestartButton_Click" Padding="18,10" Margin="0,0,8,8"/>
-   </WrapPanel>
-   <!-- DAY 7B: put the CaptureControls.xaml snippet INSIDE this panel. -->
+ <Window.Resources>
+  <Style TargetType="Button">
+   <Setter Property="Background" Value="#284A3E"/>
+   <Setter Property="Foreground" Value="#F1F5EB"/>
+   <Setter Property="BorderBrush" Value="#557B65"/>
+   <Setter Property="BorderThickness" Value="1"/>
+   <Setter Property="FontSize" Value="15"/>
+   <Setter Property="Padding" Value="20,11"/>
+   <Setter Property="Cursor" Value="Hand"/>
+   <Setter Property="Template">
+    <Setter.Value>
+     <ControlTemplate TargetType="Button">
+      <Border Background="{TemplateBinding Background}"
+              BorderBrush="{TemplateBinding BorderBrush}"
+              BorderThickness="{TemplateBinding BorderThickness}"
+              CornerRadius="10" Padding="{TemplateBinding Padding}">
+       <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+      </Border>
+      <ControlTemplate.Triggers>
+       <Trigger Property="IsMouseOver" Value="True">
+        <Setter Property="Background" Value="#3B6954"/>
+        <Setter Property="BorderBrush" Value="#A6C18D"/>
+       </Trigger>
+       <Trigger Property="IsEnabled" Value="False">
+        <Setter Property="Opacity" Value="0.42"/>
+        <Setter Property="Cursor" Value="Arrow"/>
+       </Trigger>
+      </ControlTemplate.Triggers>
+     </ControlTemplate>
+    </Setter.Value>
+   </Setter>
+  </Style>
+ </Window.Resources>
+ <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+  <StackPanel Margin="28">
+   <TextBlock Text="FIELD STORY / CS110" Foreground="#A9C99A" FontSize="14"
+              FontWeight="SemiBold"/>
+   <TextBlock Text="Technical Context" FontSize="36" FontWeight="SemiBold"
+              Margin="0,8,0,4"/>
+   <TextBlock Text="A greenhouse story, told one moment at a time."
+              Foreground="#B7C8BB" FontSize="16" Margin="0,0,0,18"/>
+   <DockPanel Margin="0,0,0,14">
+    <TextBlock x:Name="SlideCounter" DockPanel.Dock="Right" Foreground="#B7C8BB"
+               FontSize="15" VerticalAlignment="Center"/>
+    <TextBlock Text="STORY MOMENTS" Foreground="#A9C99A" FontSize="13"
+               FontWeight="SemiBold" VerticalAlignment="Center"/>
+   </DockPanel>
+   <Grid Width="660" HorizontalAlignment="Center">
+    <Grid.ColumnDefinitions>
+     <ColumnDefinition Width="320"/>
+     <ColumnDefinition Width="20"/>
+     <ColumnDefinition Width="320"/>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+     <RowDefinition Height="320"/>
+     <RowDefinition Height="20"/>
+     <RowDefinition Height="320"/>
+    </Grid.RowDefinitions>
+    <Border x:Name="StartingTile" Grid.Row="0" Grid.Column="0"
+            CornerRadius="18" BorderThickness="3" BorderBrush="#476451"
+            Background="#20392F" ClipToBounds="True">
+     <Grid>
+      <Image x:Name="StartingImage" Width="320" Height="320" Stretch="UniformToFill"
+             AutomationProperties.Name="Withered plants, starting state">
+       <Image.Clip>
+        <RectangleGeometry Rect="0,0,320,320" RadiusX="18" RadiusY="18"/>
+       </Image.Clip>
+      </Image>
+      <Rectangle x:Name="StartingDimmer" Fill="#26312D" Opacity="0.3" Visibility="Collapsed"/>
+      <Border VerticalAlignment="Bottom" Background="#D910251F" Padding="14,10">
+       <StackPanel>
+        <TextBlock Text="01  /  STARTING STATE" Foreground="#D6E6C9"
+                   FontSize="12" FontWeight="SemiBold"/>
+        <TextBlock Text="Withered plants" Foreground="#FFFFFF" FontSize="16"
+                   FontWeight="SemiBold" Margin="0,3,0,0"/>
+       </StackPanel>
+      </Border>
+     </Grid>
+    </Border>
+    <Border x:Name="ActionTile" Grid.Row="0" Grid.Column="2"
+            CornerRadius="18" BorderThickness="3" BorderBrush="#476451"
+            Background="#20392F" ClipToBounds="True">
+     <Grid>
+      <Image x:Name="ActionImage" Width="320" Height="320" Stretch="UniformToFill"
+             AutomationProperties.Name="Closed greenhouse door, action">
+       <Image.Clip>
+        <RectangleGeometry Rect="0,0,320,320" RadiusX="18" RadiusY="18"/>
+       </Image.Clip>
+      </Image>
+      <Rectangle x:Name="ActionDimmer" Fill="#26312D" Opacity="0.3" Visibility="Collapsed"/>
+      <Border VerticalAlignment="Bottom" Background="#D910251F" Padding="14,10">
+       <StackPanel>
+        <TextBlock Text="02  /  ACTION" Foreground="#D6E6C9"
+                   FontSize="12" FontWeight="SemiBold"/>
+        <TextBlock Text="Exit and close the door" Foreground="#FFFFFF" FontSize="16"
+                   FontWeight="SemiBold" Margin="0,3,0,0"/>
+       </StackPanel>
+      </Border>
+     </Grid>
+    </Border>
+    <Border x:Name="ResultTile" Grid.Row="2" Grid.Column="0"
+            CornerRadius="18" BorderThickness="3" BorderBrush="#476451"
+            Background="#20392F" ClipToBounds="True">
+     <Grid>
+      <Image x:Name="ResultImage" Width="320" Height="320" Stretch="UniformToFill"
+             AutomationProperties.Name="Watered plants, result">
+       <Image.Clip>
+        <RectangleGeometry Rect="0,0,320,320" RadiusX="18" RadiusY="18"/>
+       </Image.Clip>
+      </Image>
+      <Rectangle x:Name="ResultDimmer" Fill="#26312D" Opacity="0.3" Visibility="Collapsed"/>
+      <Border VerticalAlignment="Bottom" Background="#D910251F" Padding="14,10">
+       <StackPanel>
+        <TextBlock Text="03  /  RESULT" Foreground="#D6E6C9"
+                   FontSize="12" FontWeight="SemiBold"/>
+        <TextBlock Text="Sprinklers water the plants" Foreground="#FFFFFF" FontSize="16"
+                   FontWeight="SemiBold" Margin="0,3,0,0"/>
+       </StackPanel>
+      </Border>
+     </Grid>
+    </Border>
+    <Border Grid.Row="2" Grid.Column="2" CornerRadius="18" BorderThickness="1"
+            BorderBrush="#557B65" Background="#1B342B" Padding="24">
+     <StackPanel VerticalAlignment="Center">
+      <TextBlock Text="SYSTEM CONTEXT" Foreground="#A9C99A" FontSize="12"
+                 FontWeight="SemiBold"/>
+      <TextBlock Text="A signal starts the sequence." Foreground="#F1F5EB"
+                 FontSize="23" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,12,0,8"/>
+      <TextBlock Text="A high-frequency pitch triggers the watering system after the greenhouse door closes."
+                 Foreground="#B7C8BB" FontSize="15" TextWrapping="Wrap" LineHeight="23"/>
+      <Border Height="1" Background="#476451" Margin="0,20,0,14"/>
+      <TextBlock Text="SIGNAL  →  RESPONSE" Foreground="#D6E6C9" FontSize="13"
+                 FontWeight="SemiBold"/>
+     </StackPanel>
+    </Border>
+   </Grid>
+   <TextBlock x:Name="StoryTextBlock" FontSize="23" FontWeight="SemiBold"
+              TextWrapping="Wrap" Margin="0,22,0,6"/>
+   <TextBlock x:Name="ImageDescription" TextWrapping="Wrap" FontSize="15"
+              Foreground="#B7C8BB" LineHeight="22"/>
+   <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,8">
+    <Button x:Name="BackButton" Content="_Back" Click="BackButton_Click" Margin="0,0,10,0"/>
+    <Button x:Name="NextButton" Content="_Next" Click="NextButton_Click" Margin="0,0,10,0"/>
+    <Button Content="_Restart" Click="RestartButton_Click"/>
+   </StackPanel>
    <StackPanel x:Name="CapturePanel"/>
-   <TextBlock x:Name="StatusText" Text="Ready. Use Next to read the story." TextWrapping="Wrap"
-              AutomationProperties.LiveSetting="Polite" Margin="0,10"/>
+   <TextBlock x:Name="StatusText" Text="Ready. Use Next to read the story."
+              Foreground="#A9C99A" TextWrapping="Wrap" Margin="0,10"/>
   </StackPanel>
  </ScrollViewer>
 </Window>
