@@ -11,9 +11,9 @@ public partial class MainWindow : Window
     private record Slide(string Text, string ImagePath, string Description);
     private readonly Slide[] slides =
     {
-        new Slide("Starting state", "Assets/Images/01.png", "A signal card: the story begins."),
-        new Slide("Action", "Assets/Images/02.png", "A route card: inspect the problem."),
-        new Slide("Result", "Assets/Images/03.png", "A handoff card: record the result.")
+        new Slide("Starting state", "Assets/Images/withered.jpeg", "Withered plants, sprinklers off."),
+        new Slide("Action", "Assets/Images/door-closed.webp", "Exit greenhouse & shut door, high frequency pitch sounds."),
+        new Slide("Result", "Assets/Images/watered.jpeg", "Frequency triggers plant watering system & toggles sprinklers.")
     };
     private int currentSlide = 0; // Array positions start at zero.
 
