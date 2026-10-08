@@ -1,5 +1,13 @@
 ## :bust_in_silhouette:  (10/8/2026 2:26 PM)
 Explain one method or propose one test for Capture, Save/Cancel. Clear, or keeping currentSlide unchanged. Do not rewrite the project. Name the file, method. input, output and result I should observe. Use fictional data only.
+
+#### Keep Decision
+- Kept mocking the capture service to return a "cancel" result.
+#### Change Decision
+- Adapt types/names to match my actual codebase interfaces/classes used.
+#### Reject Decision
+- Don't change project structure/rewrite existing project code.
+
 ## :speech_balloon: GitHub Copilot
 File: CaptureControlsViewModelTests.cs
 
