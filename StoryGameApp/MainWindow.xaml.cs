@@ -22,6 +22,7 @@ public partial class MainWindow : Window
     private readonly Image[] slideImages;
     private readonly Border[] slideTiles;
     private readonly Rectangle[] slideDimmers;
+    private RenderTargetBitmap? lastCapture;
 
     public MainWindow()
     {
@@ -93,5 +94,53 @@ public partial class MainWindow : Window
     {
         ShowSlide(0);
     }
-    // DAY 7B: paste CaptureHandlers.cs.txt HERE, inside these class braces.
+    // Capture / Save / Clear handlers
+    private void CaptureButton_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            const double dpi = 96d;
+            var rtb = new RenderTargetBitmap((int)ActualWidth, (int)ActualHeight, dpi, dpi, PixelFormats.Pbgra32);
+            rtb.Render(this);
+            lastCapture = rtb;
+            SavePngButton.IsEnabled = true;
+            StatusText.Text = "Captured current window.";
+        }
+        catch (Exception ex)
+        {
+            StatusText.Text = $"Capture failed: {ex.Message}";
+        }
+    }
+
+    private void SavePngButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (lastCapture is null)
+        {
+            StatusText.Text = "Nothing to save. Capture first.";
+            return;
+        }
+        var dlg = new Microsoft.Win32.SaveFileDialog { Filter = "PNG Image|*.png", FileName = "capture.png" };
+        if (dlg.ShowDialog(this) == true)
+        {
+            try
+            {
+                using var fs = new FileStream(dlg.FileName, FileMode.Create);
+                var encoder = new PngBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(lastCapture));
+                encoder.Save(fs);
+                StatusText.Text = $"Saved PNG to {dlg.FileName}";
+            }
+            catch (Exception ex)
+            {
+                StatusText.Text = $"Save failed: {ex.Message}";
+            }
+        }
+    }
+
+    private void ClearButton_Click(object sender, RoutedEventArgs e)
+    {
+        lastCapture = null;
+        SavePngButton.IsEnabled = false;
+        StatusText.Text = "Capture cleared.";
+    }
 }

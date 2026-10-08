@@ -148,7 +148,11 @@
     <Button x:Name="NextButton" Content="_Next" Click="NextButton_Click" Margin="0,0,10,0"/>
     <Button Content="_Restart" Click="RestartButton_Click"/>
    </StackPanel>
-   <StackPanel x:Name="CapturePanel"/>
+   <StackPanel x:Name="CapturePanel" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,6,0,8">
+    <Button x:Name="CaptureButton" Content="Capture" Click="CaptureButton_Click" Margin="0,0,10,0"/>
+    <Button x:Name="SavePngButton" Content="Save PNG" Click="SavePngButton_Click" Margin="0,0,10,0" IsEnabled="False"/>
+    <Button x:Name="ClearButton" Content="Clear" Click="ClearButton_Click"/>
+   </StackPanel>
    <TextBlock x:Name="StatusText" Text="Ready. Use Next to read the story."
               Foreground="#A9C99A" TextWrapping="Wrap" Margin="0,10"/>
   </StackPanel>
