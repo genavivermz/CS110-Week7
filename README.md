@@ -10,6 +10,9 @@
 - 7B Whiteboard logic trace evidence
 - Prototyped screenshot from 7B checkpoint with remapped XAML view
 - AI testing suggestions incl. keep/change/reject
+- Source ZIP
+
+#### StoryGameApp/Evidence/Final
 - Presentation tutorial
 
 # Image Credits
