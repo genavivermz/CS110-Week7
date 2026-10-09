@@ -20,6 +20,6 @@
 - Picture 2: https://www.cedarbuiltgreenhouses.com/all-options/p/dutch-doors
 - Picture 3: https://salisburygreenhouse.com/identifying-and-resolving-overwatered-plants/
 
-# Peer Review
+# Discord Peer Review
 - Test problem: hit clear but didn't refresh anything
 - Solved: added logic ClearButton_Click under MainWindow.xaml.cs to wire up button
